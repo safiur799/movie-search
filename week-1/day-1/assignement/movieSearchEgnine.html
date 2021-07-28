@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <title>Document</title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .first {
+      display: flex;
+      justify-content: center;
+      height: 20vh;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      background-color: peru;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    #container {
+      display: grid;
+      grid-template-columns: repeat(5, 100%);
+      grid-gap: 10px;
+      box-shadow: 0 4px 2px 0 rgba(0, 0, 0, 0.2);
+      transition: 0.3s;
+      width: 30%;
+      height: 20%;
+      transition: background-color 2s ease-out 100ms;
+      margin: 20px;
+    }
+    #container img {
+      text-align: center;
+      width: 100%;
+    }
+    #container:hover {
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.8);
+      background-color: lightblue;
+    }
+    #container p {
+      margin-bottom: 2px;
+      text-align: center;
+      color: chocolate;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 18px;
+    }
+    #movie {
+      width: 40%;
+      height: 50%;
+      margin-top: 25px;
+      text-align: center;
+    }
+    button {
+      width: 10%;
+      margin-top: 25px;
+      height: 50%;
+      margin-left: 5px;
+    }
+    button:hover {
+      cursor: pointer;
+      background-color: green;
+      color: black;
+    }
+  </style>
+  <body>
+    <div class="first">
+      <input type="text" id="movie" placeholder="search movie" />
+      <button onclick="searchMovie()">Search</button>
+    </div>
+    <div id="container"></div>
+  </body>
+</html>
+<script>
+  async function searchMovie() {
+    let movie = document.getElementById("movie").value;
+    let con = document.getElementById("container");
+    let result = "";
+    try {
+      let respone = await fetch(
+        `http://www.omdbapi.com/?apikey=9c07ac1d&t=${movie}`
+      );
+      let data = await respone.json();
+      console.log(data);
+      let img = document.createElement("img");
+      img.src = data.Poster;
+
+      let p = document.createElement("p");
+      p.innerHTML = `Movie Name: ${data.Title}`;
+
+      let year = document.createElement("p");
+      year.innerHTML = `Release Data: ${data.Released}`;
+
+      let director = document.createElement("p");
+
+      director.innerHTML = `Director: ${data.Director}`;
+      let genre = document.createElement("p");
+      genre.innerHTML = `Genre: ${data.Genre}`;
+
+      let div = document.createElement("div");
+      div.append(img, p, year, director, genre);
+
+      con.append(div);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+</script>
