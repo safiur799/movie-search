@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="first">
+      <input type="text" id="movie" placeholder="search movie" />
+      <button onclick="getData()">Search</button>
+    </div>
+    <div id="container"></div>
+  </body>
+</html>
+<script>
+  //   async function showCountry() {
+  //     let respone = await fetch("https://restcountries.eu/rest/v2/all");
+  //     let data = await respone.json();
+  //     data.forEach(({ name, languages: [{ name: lang }] }) => {
+  //       console.log(name, lang);
+  //     });
+  //   }
+  //   showCountry();
+  let video_div = document.getElementById("container");
+  async function getData() {
+    video_div.innerHTML = null;
+    let p = document.getElementById("movie").value;
+
+    let res = await fetch(
+      `https://youtube.googleapis.com/youtube/v3/search?q=${p}&key=AIzaSyBG7_GEkw936TRHPW-2mvRVnFPy793cQ9Q`
+    );
+    let data = await res.json();
+    console.log(data);
+    let video = document.getElementById("container");
+    // let videos_data = data.items;
+    let { items } = data;
+    items = items.filter((el) => {
+      return el.id.videoId != undefined;
+    });
+    items.forEach(({ id: { videoId } }) => {
+      let div = document.createElement("div");
+      div.style.marginTop = "20px";
+      div.innerHTML = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      video_div.appendChild(div);
+    });
+  }
+</script>

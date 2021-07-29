@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .first {
+      display: grid;
+      grid-template-columns: 600px 100px;
+      justify-content: center;
+      align-items: center;
+      height: 20vh;
+    }
+
+    #movie,
+    button {
+      height: 50px;
+    }
+    #movie {
+      text-align: center;
+      font-size: 24px;
+    }
+    button:hover {
+      cursor: pointer;
+    }
+    .itme {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      grid-gap: 10px;
+    }
+    @media (max-width: 760px) {
+      .itme {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 400px) {
+      .itme {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+    @media (max-width: 800px) {
+      .itme {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+  <body>
+    <div class="first">
+      <input type="text" id="movie" placeholder="search movie" />
+      <button onclick="getData()">Search</button>
+    </div>
+
+    <div id="container" class="itme"></div>
+  </body>
+</html>
+<script>
+  let video_div = document.getElementById("container");
+  async function getData() {
+    video_div.innerHTML = null;
+    let p = document.getElementById("movie").value;
+
+    let res = await fetch(
+      `https://youtube.googleapis.com/youtube/v3/search?q=${p}&key=AIzaSyBG7_GEkw936TRHPW-2mvRVnFPy793cQ9Q&maxResults=20`
+    );
+    let data = await res.json();
+    console.log(data);
+    let video = document.getElementById("container");
+    let { items } = data;
+    items = items.filter((el) => {
+      return el.id.videoId !== undefined;
+    });
+    items.forEach(({ id: { videoId } }) => {
+      let div = document.createElement("div");
+      div.style.marginTop = "20px";
+
+      div.innerHTML = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      video_div.appendChild(div);
+    });
+  }
+</script>
