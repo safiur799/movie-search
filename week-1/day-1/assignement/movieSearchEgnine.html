@@ -70,6 +70,9 @@
       background-color: green;
       color: black;
     }
+    #container btn {
+      color: blue;
+    }
   </style>
   <body>
     <div class="first">
@@ -105,12 +108,25 @@
       let genre = document.createElement("p");
       genre.innerHTML = `Genre: ${data.Genre}`;
 
+      let btn = document.createElement("p");
+      btn.innerHTML = "Recommended";
+      btn.style.color = "blue";
+      btn.style.zIndex = "2";
+      btn.style.hover = "20px";
+
       let div = document.createElement("div");
+
       if (data.Poster == undefined) {
         window.location.href = "searchMovie2.html";
       } else {
-        div.append(img, p, year, director, genre);
-        con.append(div);
+        if (data.imdbRating > 8.5) {
+          console.log("safi");
+          div.append(img, p, year, director, genre, btn);
+          con.append(div);
+        } else {
+          div.append(img, p, year, director, genre);
+          con.append(div);
+        }
       }
     } catch (err) {
       window.location.href = "searchMovie2.html";
