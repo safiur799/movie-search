@@ -106,11 +106,14 @@
       genre.innerHTML = `Genre: ${data.Genre}`;
 
       let div = document.createElement("div");
-      div.append(img, p, year, director, genre);
-
-      con.append(div);
+      if (data.Poster == undefined) {
+        window.location.href = "searchMovie2.html";
+      } else {
+        div.append(img, p, year, director, genre);
+        con.append(div);
+      }
     } catch (err) {
-      console.log(err);
+      window.location.href = "searchMovie2.html";
     }
   }
 </script>
