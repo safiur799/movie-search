@@ -7,28 +7,69 @@
     <title>Document</title>
   </head>
   <style>
-    input {
-      width: 200px;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
+    .container {
+      display: grid;
+      grid-template-rows: 1fr 1fr 3fr;
+    }
+    .items {
+      background: #f4f4f4;
+      font-size: 1.3rem;
+      text-align: center;
+    }
+    h1 {
+      padding: 1rem;
+    }
+
     #data_div {
-      height: 200px;
-      width: 206px;
-      border: 1px solid black;
       border-top: none;
-      overflow: scroll;
+      width: 40%;
+      height: 50%;
+      margin-left: 30%;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding: 0 10px;
+      margin-top: 0;
+      text-align: left;
+      color: chocolate;
+      font-size: 18px;
+      font-family: Arial, Helvetica, sans-serif;
+      border-radius: 10px;
+    }
+    #data_div:hover {
+      cursor: pointer;
+    }
+    #data_div p {
+      background-color: black;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    input {
+      border-radius: 10px;
+      width: 40%;
+      height: 50%;
     }
   </style>
   <body>
-    <input oninput="throutleFunction()" type="text" id="query" />
-    <div id="data_div"></div>
+    <div class="container">
+      <div class="items"><h1>star Wars</h1></div>
+      <div class="items">
+        <input oninput="throutleFunction()" type="text" id="query" />
+      </div>
+      <div class="items"><div id="data_div"></div></div>
+    </div>
   </body>
 </html>
 <script>
   let data_movies = document.getElementById("data_div");
   let timerId;
   async function searchMovie() {
+    data_movies.innerHTML = null;
     let query = document.getElementById("query").value;
-
     if (query.length <= 2) {
       return false;
     }
