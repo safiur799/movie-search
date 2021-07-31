@@ -90,13 +90,21 @@
 
   function appendMovie(d) {
     console.log(d);
+    let data1 = false;
     if (d) {
       data_movies.innerHTML = null;
       d.forEach(({ name }) => {
         let p = document.createElement("p");
         p.innerHTML = name;
         data_movies.append(p);
+        data1 = true;
       });
+      if (data1 == false) {
+        console.log("safi");
+        let p = document.createElement("p");
+        p.innerHTML = "No search results";
+        data_movies.append(p);
+      }
     }
   }
   async function main() {
